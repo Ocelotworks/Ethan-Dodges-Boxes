@@ -9,7 +9,7 @@ Ethan.GameOver.prototype = {
         if(this.game.senpaiMode){
             Ethan.GameOver.background = this.game.add.group();
             for (var i = 0; i < 20; i++) {
-                var arrow = this.game.add.sprite(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "background");
+                var arrow = this.game.add.sprite(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "assets", "background");
                 var scale = this.game.rnd.integerInRange(1, 100) / 100;
                 arrow.scale.setTo(scale, scale);
                 arrow.speed = this.game.rnd.integerInRange(1, 10);
@@ -17,13 +17,10 @@ Ethan.GameOver.prototype = {
             }
 
         }else{
-            Ethan.GameOver.background = this.game.add.sprite(0,0, "space");
-            Ethan.GameOver.background.anchor.setTo(0.5, 0.5);
-            Ethan.GameOver.background.angle = 90;
-            Ethan.GameOver.background.scale.set(2.5, 2);
+            Ethan.GameOver.background = this.game.add.sprite(0,0, "assets", "space");
         }
 
-        Ethan.GameOver.gameOverText = this.game.add.sprite(200, 200, "gameover");
+        Ethan.GameOver.gameOverText = this.game.add.sprite(200, 200, "assets", "gameover");
         Ethan.GameOver.gameOverText.scale.setTo(2,2);
 
         if(this.game.points > localStorage.getItem("highscore")){
@@ -55,9 +52,9 @@ Ethan.GameOver.prototype = {
             fill: "#ffffff"
         });
 
-        Ethan.GameOver.restartButton = this.game.add.button(240, 1050, 'button', this.restart, this, 1, 1, 1);
-        Ethan.GameOver.storeButton = this.game.add.button(240, 1225, 'store', this.openstore, this, 1, 1, 1);
-        Ethan.GameOver.backButton = this.game.add.button(240, 1400, 'back', this.menu, this, 1, 1, 1);
+        Ethan.GameOver.restartButton = this.game.add.button(240, 1050, "assets", this.restart, this, "button","button","button");
+        Ethan.GameOver.storeButton = this.game.add.button(240, 1225, "assets", this.openstore, this, "store", "store", "store");
+        Ethan.GameOver.backButton = this.game.add.button(240, 1400,"assets", this.menu, this, "back", "back", "back");
 
         this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.restart, this);
         this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER).onDown.add(this.restart, this);

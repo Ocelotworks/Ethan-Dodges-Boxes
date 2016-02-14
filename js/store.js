@@ -16,22 +16,19 @@ Ethan.Store.prototype = {
         if (this.game.senpaiMode) {
             Ethan.Store.background = this.game.add.group();
             for (var i = 0; i < 20; i++) {
-                var arrow = this.game.add.sprite(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "background");
+                var arrow = this.game.add.sprite(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "assets", "background");
                 var scale = this.game.rnd.integerInRange(1, 100) / 100;
                 arrow.scale.setTo(scale, scale);
                 arrow.speed = this.game.rnd.integerInRange(1, 10);
                 Ethan.Store.background.add(arrow);
             }
         } else {
-            Ethan.Store.background = this.add.image(0, 0, "space");
-            Ethan.Store.background.anchor.setTo(0.5, 0.5);
-            Ethan.Store.background.angle = 90;
-            Ethan.Store.background.scale.setTo(2.5, 2);
+            Ethan.Store.background = this.add.image(0, 0, "assets", "space");
         }
 
         Ethan.Store.ownedPowerups = JSON.parse(localStorage.getItem("powerups")) || {};
-        Ethan.Store.storeFront = this.add.image(50, 200, "storefront");
-        Ethan.Store.storeHeader = this.add.image(230, 50, "storeheader");
+        Ethan.Store.storeFront = this.add.image(50, 200, "assets", "storefront");
+        Ethan.Store.storeHeader = this.add.image(230, 50, "assets", "storeheader");
 
         var costStyle = {
             font: "34px Arial",
@@ -67,9 +64,9 @@ Ethan.Store.prototype = {
         for(var i = 0; i < 7; i++){
             var bmp = this.game.make.bitmapData(965, 209);
             var powerup = powerups[i];
-            var ethanbuck = this.game.make.sprite(850, 150, "ethanbucks");
+            var ethanbuck = this.game.make.sprite(850, 150, "assets", "ethanbucks");
             ethanbuck.scale.setTo(0.3, 0.3);
-            bmp.draw(this.game.make.sprite(10, 10, "powerups", powerup.id));
+            bmp.draw(this.game.make.sprite(10, 10, "assets", powerup.id));
             bmp.draw(ethanbuck);
             bmp.draw(this.game.make.text(200,0, powerup.name, titleStyle));
             bmp.draw(this.game.make.text(200,80, powerup.desc, descStyle));
@@ -93,7 +90,7 @@ Ethan.Store.prototype = {
             fill: "#000000"
         });
 
-        Ethan.Store.backButton = this.game.add.button(240, 1750, 'back', this.mainMenu, this, 1, 1, 1);
+        Ethan.Store.backButton = this.game.add.button(240, 1750, 'assets', this.mainMenu, this, "back", "back", "back");
     },
 
     update: function(){

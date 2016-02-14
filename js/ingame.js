@@ -13,7 +13,7 @@ Ethan.Game = function(game){
     Ethan.Game.ticks = null;
     Ethan.Game.boxMaxFreq = null;
     Ethan.Game.boxMinFreq = null;
-    Ethan.Game.boxPositions = [970, 1215, 1480];
+    Ethan.Game.boxPositions = [970, 1315, 1500];
     Ethan.Game.background = null;
     Ethan.Game.goals = null;
     Ethan.Game.boxes = null;
@@ -36,10 +36,7 @@ Ethan.Game.prototype = {
 
     addBox: function(){
         var position = this.game.rnd.integerInRange(0,2);
-        var b = this.add.image(Ethan.Game.boxPositions[position], 770, Ethan.Game.ownedPowerups['oppositeday'] ? "player" : "box" );
-        if(Ethan.Game.ownedPowerups['oppositeday'] ){
-            b.scale.setTo(0.3, 0.3);
-        }
+        var b = this.add.image(Ethan.Game.boxPositions[position], 770,"assets", Ethan.Game.ownedPowerups['oppositeday'] ? "player" : "box" );
         b.powerup = null;
         b.b_position = position;
         Ethan.Game.boxes.add(b);
@@ -52,12 +49,12 @@ Ethan.Game.prototype = {
         var b;
         if(Ethan.Game.powerupModifiers.length !== 0 && !Ethan.Game.currentPowerup && this.game.rnd.integerInRange(1, 7) === 1){
             powerup = Ethan.Game.powerupModifiers[this.game.rnd.integerInRange(0, Ethan.Game.powerupModifiers.length-1)];
-            b = this.add.image(Ethan.Game.boxPositions[position], 770, "powerups", powerup.id);
+            b = this.add.image(Ethan.Game.boxPositions[position], 770, "assets", powerup.id);
             b.powerup = powerup;
             powerup = null;
 
         }else{
-            b = this.add.image(Ethan.Game.boxPositions[position]-100, 770, "ebpickup");
+            b = this.add.image(Ethan.Game.boxPositions[position]-100, 770, "assets", "ethanbucks-pickup");
             b.powerup = "ethanbuck";
         }
 
@@ -107,20 +104,18 @@ Ethan.Game.prototype = {
         Ethan.Game.boxMaxFreq = 50;
         Ethan.Game.boxMinFreq = 20;
         Ethan.Game.poweupTimer = 0;
+        Ethan.Game.paused = false;
         if (this.game.senpaiMode) {
             Ethan.Game.background = this.game.add.group();
             for (var i = 0; i < 20; i++) {
-                var arrow = this.game.add.image(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "Ethan.Game.background");
+                var arrow = this.game.add.image(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "assets", "background");
                 var scale = this.game.rnd.integerInRange(1, 100) / 100;
                 arrow.scale.setTo(scale, scale);
                 arrow.speed = this.game.rnd.integerInRange(1, 10);
                 Ethan.Game.background.add(arrow);
             }
         } else {
-            Ethan.Game.background = this.add.image(0, 0, "space");
-            Ethan.Game.background.anchor.setTo(0.5, 0.5);
-            Ethan.Game.background.angle = 90;
-            Ethan.Game.background.scale.setTo(2.5, 2);
+            Ethan.Game.background = this.add.image(0, 0, "assets", "space");
         }
         Ethan.Game.ownedPowerups = JSON.parse(localStorage.getItem("powerups")) || {};
         for(var powerup in powerups){
@@ -129,7 +124,7 @@ Ethan.Game.prototype = {
             }
         }
         Ethan.Game.soundEnabled = localStorage.getItem("sound") === "true";
-        Ethan.Game.goals = this.add.image(0,0,"goals");
+        Ethan.Game.goals = this.add.image(60,320,"assets", "goals");
 
         Ethan.Game.boxes = this.add.group();
 
@@ -142,15 +137,13 @@ Ethan.Game.prototype = {
 
         Ethan.Game.boxes.scale.set(0.4, 0.4);
 
-        player = this.add.image(Ethan.Game.ethanPositions[Ethan.Game.ethanPosition], 1500, Ethan.Game.ownedPowerups['oppositeday'] ? "box" : "player");
+        player = this.add.image(Ethan.Game.ethanPositions[Ethan.Game.ethanPosition], 1500, "assets", Ethan.Game.ownedPowerups['oppositeday'] ? "box" : "player");
 
 
-        if(Ethan.Game.ownedPowerups['oppositeday']){
-            Ethan.Game.pointsBox = this.add.image(0, 0, "player");
-        }else{
-            Ethan.Game.pointsBox = this.add.image(0, 0, "box");
-            Ethan.Game.pointsBox.scale.set(0.5, 0.5);
-        }
+
+        Ethan.Game.pointsBox = this.add.image(0, 0, "assets", Ethan.Game.ownedPowerups['oppositeday'] ? "player" : "box");
+        Ethan.Game.pointsBox.scale.set(0.5, 0.5);
+
 
         Ethan.Game.pointsText = this.game.add.text(128, 10, "0", {
             font: "165px Arial",
@@ -158,7 +151,7 @@ Ethan.Game.prototype = {
             align: "center"
         });
 
-        Ethan.Game.ethanBucksIcon = this.add.image(0, 232, "ethanbucks");
+        Ethan.Game.ethanBucksIcon = this.add.image(0, 232, "assets", "ethanbucks");
         Ethan.Game.ethanBucksIcon.scale.set(0.5, 0.5);
 
         Ethan.Game.ethanBucksText = this.game.add.text(128, 202, this.game.ethanBucks, {
@@ -181,6 +174,7 @@ Ethan.Game.prototype = {
     },
 
     update: function() {
+        if(Ethan.Game.paused)return;
         Ethan.Game.ticks++;
 
         if(Ethan.Game.ticks > this.game.rnd.integerInRange(Ethan.Game.boxMinFreq, Ethan.Game.boxMaxFreq)){
@@ -191,19 +185,14 @@ Ethan.Game.prototype = {
             }
             Ethan.Game.ticks = 0;
         }
-
         Ethan.Game.boxes.forEach(function (box){
-            if(box.alive) {
+            if(box.alive ) {
                 box.y += (Ethan.Game.boxSpeed * 2)+box.y/(100-Ethan.Game.boxSpeed);
                 box.x -= Ethan.Game.boxSpeed * (box.b_position == 1 ? 0.1 : box.b_position == 2 ? -0.3 : 0.4)*box.y/1000;
 
-                if(Ethan.Game.ownedPowerups['oppositeday'] && !box.powerup){
-                    box.scale.x += Ethan.Game.boxSpeed * 0.0001;
-                    box.scale.y += Ethan.Game.boxSpeed * 0.0001;
-                }else{
-                    box.scale.x += Ethan.Game.boxSpeed * 0.001;
-                    box.scale.y += Ethan.Game.boxSpeed * 0.001;
-                }
+                box.scale.x += Ethan.Game.boxSpeed * 0.001;
+                box.scale.y += Ethan.Game.boxSpeed * 0.001;
+
 
                 if (box.y > 3600) {
                     if(box.b_position == Ethan.Game.ethanPosition){
@@ -264,7 +253,6 @@ Ethan.Game.prototype = {
                 }
             }
         }, this);
-
     },
 
     randEthan: function(){

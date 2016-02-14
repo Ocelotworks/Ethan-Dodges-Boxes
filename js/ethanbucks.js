@@ -8,23 +8,28 @@ var items = [
         name: "Quiver of 500 EthanBucks",
         desc: "Don't ask why they're in a quiver. Just don't.",
         cost: "0.70",
-        id: 0
+        id: 0,
+        key: "iap-quiver"
     },
     {
         name: "Crate of 5000 EthanBucks",
         desc: "More EthanBucks than you'll know what to do with.",
         cost: "2.95",
-        id: 1
+        id: 1,
+        key: "iap-crate"
     },
     {
         name: "Low Orbit EthanBucks Cannon",
         desc: "Get 10000 EB at a discount price!",
         cost: "5.99",
-        id: 2
+        id: 2,
+        key: "iap-cannon"
     }
 ];
 
-Ethan.EthanBucks = function(game){};
+Ethan.EthanBucks = function(game){
+
+};
 Ethan.EthanBucks.prototype = {
 
     preload: function(){
@@ -34,23 +39,20 @@ Ethan.EthanBucks.prototype = {
 
     create: function(){
         if (this.game.senpaiMode) {
-            background = this.game.add.group();
+            Ethan.EthanBucks.background = this.game.add.group();
             for (var i = 0; i < 20; i++) {
-                var arrow = this.game.add.sprite(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "background");
+                var arrow = this.game.add.sprite(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "assets", "background");
                 var scale = this.game.rnd.integerInRange(1, 100) / 100;
                 arrow.scale.setTo(scale, scale);
                 arrow.speed = this.game.rnd.integerInRange(1, 10);
-                background.add(arrow);
+                Ethan.EthanBucks.background.add(arrow);
             }
         } else {
-            background = this.add.image(0, 0, "space");
-            background.anchor.setTo(0.5, 0.5);
-            background.angle = 90;
-            background.scale.setTo(2.5, 2);
+            Ethan.EthanBucks.background = this.add.image(0, 0, "assets", "space");
         }
 
-        storefront = this.add.image(50, 200, "storefront");
-        storeHeader = this.add.image(230, 50, "storeheader");
+        Ethan.EthanBucks.storeFront = this.add.image(50, 200, "assets", "storefront");
+        Ethan.EthanBucks.storeHeader = this.add.image(230, 50, "assets", "storeheader");
 
         var costStyle = {
             font: "34px Arial",
@@ -86,9 +88,9 @@ Ethan.EthanBucks.prototype = {
         for(var i = 0; i < 3; i++){
             var bmp = this.game.make.bitmapData(965, 209);
             var powerup = items[i];
-            var ethanbuck = this.game.make.sprite(850, 150, "ethanbucks");
+            var ethanbuck = this.game.make.sprite(850, 150, "assets", "ethanbucks");
             ethanbuck.scale.setTo(0.3, 0.3);
-            bmp.draw(this.game.make.sprite(10, 10, "ebitems", powerup.id));
+            bmp.draw(this.game.make.sprite(10, 10, "assets", powerup.key));
             bmp.draw(ethanbuck);
             bmp.draw(this.game.make.text(200,0, powerup.name, titleStyle));
             bmp.draw(this.game.make.text(200,80, powerup.desc, descStyle));
@@ -102,16 +104,19 @@ Ethan.EthanBucks.prototype = {
             button.purchase = i;
         }
 
-        balance = this.add.text(160,210, "x"+this.game.ethanBucks, {
+        Ethan.EthanBucks.balanceText = this.add.text(160,210, "x"+this.game.ethanBucks, {
             font: "48px Arial",
             fill: "#000000"
         });
 
-        backButton = this.game.add.button(240, 1750, 'back', this.shop, this, 1, 1, 1);
+        Ethan.EthanBucks.backButton = this.game.add.button(240, 1750, 'assets', this.shop, this, "back", "back", "back");
+        
 
-        //console.log(store);
-
-        if(typeof store !== 'undefined'){
+        if (typeof store == 'undefined') {
+            this.game.messageBox("Your device is not compatible with in-app purchases. Return to store?", function () {
+                this.shop();
+            }, this);
+        } else {
             console.log("Store exists");
             store.register({
                 id: "0",
@@ -129,7 +134,7 @@ Ethan.EthanBucks.prototype = {
                 type: store.CONSUMABLE
             });
 
-            store.when("0").approved(function(product){
+            store.when("0").approved(function (product) {
                 console.log("order approved");
                 game.ethanBucks += 500;
                 localStorage.setItem("ethanbucks", parseInt(game.ethanBucks));
@@ -137,7 +142,7 @@ Ethan.EthanBucks.prototype = {
                 this.purchaseMenu();
             });
 
-            store.when("1").approved(function(product){
+            store.when("1").approved(function (product) {
                 console.log("order approved");
                 game.ethanBucks += 5000;
                 localStorage.setItem("ethanbucks", parseInt(game.ethanBucks));
@@ -146,7 +151,7 @@ Ethan.EthanBucks.prototype = {
 
             });
 
-            store.when("2").approved(function(product){
+            store.when("2").approved(function (product) {
                 console.log("order approved");
                 game.ethanBucks += 10000;
                 localStorage.setItem("ethanbucks", parseInt(game.ethanBucks));
@@ -156,11 +161,6 @@ Ethan.EthanBucks.prototype = {
 
             store.refresh();
 
-        }else{
-            console.log("store?");
-            this.game.messageBox("Your device is not compatible with in-app purchases. Return to store?", function(){
-                this.shop();
-            }, this);
         }
 
 
@@ -174,7 +174,6 @@ Ethan.EthanBucks.prototype = {
     },
 
     buyItem: function(button){
-        console.log("store order go");
         store.order(button.purchase+"");
     },
 
@@ -192,7 +191,7 @@ Ethan.EthanBucks.prototype = {
 
     update: function(){
         if(this.game.senpaiMode){
-            background.forEach(function(arrow){
+            Ethan.EthanBucks.background.forEach(function(arrow){
                 arrow.x-=arrow.speed;
                 if(arrow.x < -300){
                     arrow.x = 1080;

@@ -26,6 +26,7 @@
     <script src="js/credits.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/ethanbucks.js"></script>
+    <script src="js/debug.js"></script>
     <script src="cordova.js"></script>
     <script>
         document.addEventListener('deviceready', function(){
@@ -36,7 +37,7 @@
         var tgame = new Phaser.Game(1080, 1920, Phaser.CANVAS, 'game');
         tgame.state.add('Boot', Ethan.Boot);
         tgame.state.add('Loading', Ethan.Loading);
-        // game.state.add('Debug', Ethan.Debug);
+        tgame.state.add('Debug', Ethan.Debug);
         tgame.state.add('Game', Ethan.Game);
         tgame.state.add('GameOver', Ethan.GameOver);
         tgame.state.add('Menu', Ethan.Menu);

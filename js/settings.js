@@ -3,17 +3,14 @@
  */
 
 var settings = {
-    "Debug Mode": false,
-    "Background Music": true,
-    "Sound Effects": true
+
 };
 
 Ethan.Settings = function(game){};
 Ethan.Settings.prototype = {
 
     preload: function(){
-        this.game.load.spritesheet("tickbox", "assets/tickbox.png", 36, 36);
-        this.game.load.image("creditsImg", "assets/credits.png");
+       // this.game.load.spritesheet("tickbox", "assets/tickbox.png", 36, 36);
         var newSettings = localStorage.getItem("settings");
         if(newSettings)
             settings = JSON.parse(newSettings);
@@ -24,23 +21,20 @@ Ethan.Settings.prototype = {
         if(this.game.senpaiMode){
             background = this.game.add.group();
             for(var i = 0; i < 20; i++){
-                var arrow = this.game.add.sprite(this.game.rnd.integerInRange(0,1080), this.game.rnd.integerInRange(0,1920), "background");
+                var arrow = this.game.add.sprite(this.game.rnd.integerInRange(0,1080), this.game.rnd.integerInRange(0,1920), "assets", "background");
                 var scale = this.game.rnd.integerInRange(1,100)/100;
                 arrow.scale.setTo(scale, scale);
                 arrow.speed = this.game.rnd.integerInRange(1,10);
                 background.add(arrow);
             }
 
-            head = this.add.sprite(0, 400, "anime");
+            head = this.add.sprite(0, 400, "assets", "anime");
             var headTween = this.game.add.tween(head);
             headTween.from({x: -1080}, 1000, Phaser.Easing.Bounce.In, true, 250);
 
             this.game.stage.backgroundColor = "#551a8b";
         }else{
-            background = this.add.sprite(0,0, "space");
-            background.anchor.setTo(0.5, 0.5);
-            background.angle = 90;
-            background.scale.set(2.5, 2);
+            background = this.add.sprite(0,0, "assets","space");
         }
 
 
@@ -51,13 +45,13 @@ Ethan.Settings.prototype = {
                 font: "100px Arial",
                 fill: "#ffffff"
             });
-            var button = this.game.add.button(950, 450 + (160 * i), "tickbox",  this.toggleSetting, this, settings[setting] ? 1 : 0, settings[setting] ? 1 : 0);
+            var button = this.game.add.button(950, 450 + (160 * i), "assets",  this.toggleSetting, this, settings[setting] ? 1 : 0, settings[setting] ? 1 : 0);
             button.scale.setTo(3, 3);
             button.setting = setting;
         }
 
-        var backButton = this.game.add.button(230, 1700, "back", this.menu, this);
-        var creditsButton = this.game.add.button(230, 1530, "creditsImg", this.credits, this);
+        var backButton = this.game.add.button(230, 1700, "assets", this.menu, this, "back", "back", "back");
+        var creditsButton = this.game.add.button(230, 1530, "assets", this.credits, this, "credits", "credits", "credits");
     },
 
     menu: function(){

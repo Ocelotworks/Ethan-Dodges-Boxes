@@ -12,7 +12,7 @@ var powerups = [
         desc: "Mr Anderson...",
         type: "powerup",
         cost: 50,
-        id: 6,
+        id: "powerup-slowdown",
         bool: "slowdown"
     },
     {
@@ -20,7 +20,7 @@ var powerups = [
         desc: "Does what it says on the tin.",
         type: "powerup",
         cost: 80,
-        id: 0,
+        id: "powerup-invincibility",
         bool: "invincibility"
     },
     {
@@ -28,7 +28,7 @@ var powerups = [
         desc: "Boxes dodges ethans",
         type: "cosmetic",
         cost: 100,
-        id: 2,
+        id: "powerup-oppositeday",
         bool: "oppositeday"
     },
     {
@@ -36,7 +36,7 @@ var powerups = [
         desc: "Destroy all boxes at once",
         type: "powerup",
         cost: 420,
-        id: 7,
+        id: "powerup-nuke",
         bool: "nuke"
     },
     {
@@ -44,7 +44,7 @@ var powerups = [
         desc: "All boxes are money",
         type: "powerup",
         cost: 500,
-        id: 3,
+        id: "powerup-money",
         bool: "money"
     },
     {
@@ -52,7 +52,7 @@ var powerups = [
         desc: "m'Boxes",
         type: "cosmetic",
         cost: 1000,
-        id: 4,
+        id: "powerup-fedora",
         bool: "fedora"
     },
     {
@@ -60,7 +60,7 @@ var powerups = [
         desc: "B-baka! It's not like I wanted you to notice me...",
         type: "cosmetic",
         cost: 2000,
-        id: 5,
+        id: "powerup-senpai",
         bool: "senpai"
     },
     {
@@ -68,7 +68,7 @@ var powerups = [
         desc: "IMA FIRIN MA LAZAH",
         type: "powerup",
         cost: 150,
-        id: 1,
+        id: "powerup-laser",
         bool: "laser"
     }
 
@@ -82,17 +82,12 @@ Ethan.Boot.prototype = {
     },
 
     create: function(){
-        if(typeof window.orientation !== 'undefined'){
-            this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-        }else{
-            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        }
-
+        this.scale.scaleMode = typeof window.orientation === 'undefined' ? Phaser.ScaleManager.SHOW_ALL : Phaser.ScaleManager.EXACT_FIT;
         this.scale.minWidth = 320;
         this.scale.minHeight = 480;
         this.scale.maxWidth = 1080;
         this.scale.maxHeight = 1920;
-
+        this.game.time.advancedTiming = true;
         this.game.state.start("Loading");
     }
 };

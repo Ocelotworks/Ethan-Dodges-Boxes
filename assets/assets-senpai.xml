@@ -1,0 +1,33 @@
+<TextureAtlas imagePath="sprites">
+	<SubTexture name="animethan" x="2056" y="0" width="651" height="1524"/>
+	<SubTexture name="back" x="1200" y="1666" width="600" height="160"/>
+	<SubTexture name="background" x="720" y="1029" width="336" height="85"/>
+	<SubTexture name="box" x="720" y="1114" width="258" height="351"/>
+	<SubTexture name="button" x="720" y="1506" width="600" height="160"/>
+	<SubTexture name="dialogno" x="0" y="1909" width="411" height="105"/>
+	<SubTexture name="dialogyes" x="411" y="1909" width="411" height="105"/>
+	<SubTexture name="ethanbucks" x="760" y="768" width="256" height="128"/>
+	<SubTexture name="ethangame" x="0" y="768" width="760" height="261"/>
+	<SubTexture name="gameover" x="1200" y="1826" width="230" height="183"/>
+	<SubTexture name="iap-cannon" x="1610" y="1826" width="180" height="180"/>
+	<SubTexture name="iap-crate" x="2038" y="1524" width="180" height="180"/>
+	<SubTexture name="iap-quiver" x="1430" y="1826" width="180" height="180"/>
+	<SubTexture name="leaderboard" x="720" y="1666" width="49" height="49"/>
+	<SubTexture name="messagebox" x="0" y="0" width="1072" height="768"/>
+	<SubTexture name="play" x="0" y="1749" width="600" height="160"/>
+	<SubTexture name="player" x="1800" y="1524" width="238" height="255"/>
+	<SubTexture name="powerup-fedora" x="1970" y="1779" width="180" height="179"/>
+	<SubTexture name="powerup-invincibility" x="2150" y="1704" width="180" height="168"/>
+	<SubTexture name="powerup-laser" x="2150" y="1872" width="180" height="170"/>
+	<SubTexture name="powerup-money" x="2330" y="1703" width="180" height="177"/>
+	<SubTexture name="powerup-nuke" x="1790" y="1826" width="180" height="180"/>
+	<SubTexture name="powerup-oppositeday" x="1320" y="1506" width="180" height="160"/>
+	<SubTexture name="powerup-senpai" x="2218" y="1524" width="180" height="179"/>
+	<SubTexture name="powerup-slowdown" x="2398" y="1524" width="180" height="174"/>
+	<SubTexture name="powerups" x="0" y="1029" width="720" height="720"/>
+	<SubTexture name="settings" x="760" y="896" width="49" height="49"/>
+	<SubTexture name="soundOffBlack" x="26" y="2014" width="26" height="24"/>
+	<SubTexture name="soundOnBlack" x="0" y="2014" width="26" height="26"/>
+	<SubTexture name="store" x="600" y="1749" width="600" height="160"/>
+	<SubTexture name="storefront" x="1072" y="0" width="984" height="1506"/>
+</TextureAtlas>
