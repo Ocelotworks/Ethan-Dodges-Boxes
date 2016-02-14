@@ -2,20 +2,38 @@
  * Copyright ©2014 UnacceptableUse
  */
 Ethan.Loading = function(game){
-    uiLoadingText = null;
-    uiEthan = null;
-    uiFedora = null;
-    debug = false;
+    Ethan.Loading.uiLoadingText = null;
+    Ethan.Loading.uiEthan = null;
+    Ethan.Loading.uiFedora = null;
+    Ethan.Loading.debug = false;
 };
 
-var uiEthan, uiFedora, menumusic, bgmusic, pickupFx, smashFx, phrases;
+var menumusic, bgmusic, pickupFx, smashFx, phrases, LOADING_PHRASES = [
+    "Polishing Ethan",
+    "Building Boxes",
+    "Reticulating Splines",
+    "Aligning Goals",
+    "Powering up Powerups",
+    "Fixing Bugs",
+    "Constructing Additional Pylons",
+    "Lowering Fedoras",
+    "Balancing Prices",
+    "Creating New Bugs",
+    "Submitting to Reddit",
+    "Alan please add loading text",
+    "Validating Insecurities",
+    "Concatinating Conkers",
+    "Initializing Memes",
+    "Finding True Love",
+    "Taming Ocelots"
+];
 Ethan.Loading.prototype = {
     preload: function(){
-        uiLoadingText = this.add.text(this.world.centerX-280, 1543, "LOADING 0%", { font: "48px sans-serif", fill: "#ffffff", align: "center" });
-        uiEthan = this.add.image(250, 850, "ethan");
-        uiFedora = this.add.sprite(250, -50, "fedora");
-        uiEthan.scale.set(5, 5);
-        uiFedora.scale.set(5, 5);
+        Ethan.Loading.uiLoadingText = this.add.text(this.world.centerX-280, 1543, "LOADING 0%", { font: "48px sans-serif", fill: "#ffffff", align: "center" });
+        Ethan.Loading.uiEthan = this.add.image(250, 1045, "ethan");
+        Ethan.Loading.uiFedora = this.add.sprite(245, -50, "fedora");
+        Ethan.Loading.uiEthan.scale.set(5, 5);
+        Ethan.Loading.uiFedora.scale.set(5, 5);
         this.load.onFileComplete.add(this.fileComplete, this);
         var ownedPowerups = JSON.parse(localStorage.getItem("powerups")) || {};
         if(ownedPowerups['senpai']){
@@ -37,7 +55,7 @@ Ethan.Loading.prototype = {
             this.load.audio("ethan2", "assets/senpai/ethan2.ogg");
             this.load.audio("ethan3", "assets/senpai/ethan3.ogg");
             this.load.audio("ethan4", "assets/senpai/ethan4.ogg");
-            this.load.image("goals", "assets/senpai/goals.png");
+            //this.load.image("goals", "assets/senpai/goals.png");
             this.load.image("storefront", "assets/senpai/storefront.png");
             this.load.spritesheet("powerups", "assets/senpai/powerups.png", 180, 180);
             this.load.image("settings", "assets/senpai/settings.png");
@@ -55,17 +73,16 @@ Ethan.Loading.prototype = {
             this.load.image("soundoff", "assets/soundOffBlack.png");
             this.load.image("soundon", "assets/soundOnBlack.png");
             this.load.audio("menumusic", "assets/Call.ogg");
-            this.load.image("goals", "assets/goals.png");
             this.load.image("storefront", "assets/storefront.png");
             this.load.spritesheet("powerups", "assets/powerups.png", 180, 180);
             this.load.image("settings", "assets/settings.png");
             this.load.audio("bgmusic", "assets/Precipice.ogg");
         }
+        this.load.image("goals", "assets/goals.png");
         this.load.image("leaderboard", "assets/leaderboard.png");
         this.load.image("yes", "assets/dialogyes.png");
         this.load.image("no", "assets/dialogno.png");
         this.load.image("messagebox", "assets/messagebox.png");
-
         this.load.image("storeheader", "assets/storeheader.png");
         this.load.image("box", "assets/box.png");
         this.load.image("space", "assets/space.jpg");
@@ -96,8 +113,8 @@ Ethan.Loading.prototype = {
     },
 
     create: function(){
-        uiLoadingText.setText("Loading music...");
-        uiFedora.y +=10;
+        //Ethan.Loading.uiLoadingText.setText("Loading music...");
+        Ethan.Loading.uiFedora.y +=10;
         menumusic = this.add.audio('menumusic');
         bgmusic = this.add.audio('bgmusic');
         pickupFx = this.add.audio("pickup");
@@ -111,10 +128,15 @@ Ethan.Loading.prototype = {
             ];
         }
 
-        if(!this.input.keyboard.addKey(Phaser.Keyboard.A).isDown) {
-            this.game.sound.setDecodedCallback(bgmusic, this.start, this);
-        }else{
+        if (this.input.keyboard.addKey(Phaser.Keyboard.A).isDown) {
             this.start();
+        } else {
+            if(this.game.senpaiMode) {
+                this.game.sound.setDecodedCallback(phrases.concat([bgmusic, menumusic, pickupFx, smashFx]), this.start, this);
+            } else{
+                this.game.sound.setDecodedCallback([bgmusic, menumusic, pickupFx, smashFx], this.start, this);
+            }
+
         }
     },
 
@@ -128,11 +150,11 @@ Ethan.Loading.prototype = {
 
     fileComplete: function(progress, cacheKey, success, totalLoaded, totalFiles){
         if(success){
-            uiLoadingText.setText("LOADING "+cacheKey+" "+progress+"% ("+totalLoaded+"/"+totalFiles+")");
-            uiFedora.y = progress*8;
+            Ethan.Loading.uiLoadingText.setText(LOADING_PHRASES[this.game.rnd.integerInRange(0, LOADING_PHRASES.length)]+"... "+progress+"%");
+            Ethan.Loading.uiFedora.y = progress*8;
             console.log("Successfully loaded "+cacheKey);
         }else{
-            uiLoadingText.setText("ERROR LOADING FILE #"+totalLoaded+": "+cacheKey);
+            Ethan.Loading.uiLoadingText.setText("ERROR LOADING FILE #"+totalLoaded+": "+cacheKey);
         }
     }
 };
