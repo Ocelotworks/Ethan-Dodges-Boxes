@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+        canvas{
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <script src="js/phaser.js"></script>
+    <script src="js/boot.js"></script>
+    <script src="js/loading.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/ingame.js"></script>
+    <script src="js/gameover.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/credits.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/ethanbucks.js"></script>
+    <script src="cordova.js"></script>
+    <script>
+        document.addEventListener('deviceready', function(){
+            window.game.setUp();
+            window.game.login();
+
+        }, false);
+        var tgame = new Phaser.Game(1080, 1920, Phaser.CANVAS, 'game');
+        tgame.state.add('Boot', FappyBird.Boot);
+        tgame.state.add('Loading', FappyBird.Loading);
+        // game.state.add('Debug', FappyBird.Debug);
+        tgame.state.add('Game', FappyBird.Game);
+        tgame.state.add('GameOver', FappyBird.GameOver);
+        tgame.state.add('Menu', FappyBird.Menu);
+        tgame.state.add('Store', FappyBird.Store);
+        tgame.state.add('Credits', FappyBird.Credits);
+        tgame.state.add('Settings', FappyBird.Settings);
+        tgame.state.add('EthanBucks', FappyBird.EthanBucks);
+        tgame.state.start('Boot');
+    </script>
+</body>
+</html>
