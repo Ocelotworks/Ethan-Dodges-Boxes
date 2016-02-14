@@ -1,10 +1,10 @@
 /**
  * Created by Peter on 15/08/2015.
  */
-FappyBird.GameOver = function(game){
+Ethan.GameOver = function(game){
 }
 
-FappyBird.GameOver.prototype = {
+Ethan.GameOver.prototype = {
     create: function(){
         if(this.game.senpaiMode){
             background = this.game.add.group();

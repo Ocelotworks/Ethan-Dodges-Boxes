@@ -24,8 +24,8 @@ var items = [
     }
 ];
 
-FappyBird.EthanBucks = function(game){};
-FappyBird.EthanBucks.prototype = {
+Ethan.EthanBucks = function(game){};
+Ethan.EthanBucks.prototype = {
 
     preload: function(){
         this.game.load.spritesheet("ebitems", "assets/ebitems.png", 180, 180);

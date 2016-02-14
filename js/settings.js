@@ -8,8 +8,8 @@ var settings = {
     "Sound Effects": true
 };
 
-FappyBird.Settings = function(game){};
-FappyBird.Settings.prototype = {
+Ethan.Settings = function(game){};
+Ethan.Settings.prototype = {
 
     preload: function(){
         this.game.load.spritesheet("tickbox", "assets/tickbox.png", 36, 36);

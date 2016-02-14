@@ -73,9 +73,9 @@ var powerups = [
     }
 
 ];
-var FappyBird = {};
-FappyBird.Boot = function(game){};
-FappyBird.Boot.prototype = {
+var Ethan = {};
+Ethan.Boot = function(game){};
+Ethan.Boot.prototype = {
     preload: function(){
         this.load.image("ethan", "assets/loading1.png");
         this.load.image("fedora", "assets/loading2.png");

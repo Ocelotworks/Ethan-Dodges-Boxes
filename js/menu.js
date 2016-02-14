@@ -5,11 +5,11 @@
  * Created by Peter on 16/08/2015.
  */
 
-FappyBird.Menu = function(game){
+Ethan.Menu = function(game){
 }
 
 
-FappyBird.Menu.prototype = {
+Ethan.Menu.prototype = {
     create: function(){
 
         if(this.game.senpaiMode){

@@ -1,7 +1,7 @@
 /* 
  * Copyright ©2014 UnacceptableUse
  */
-FappyBird.Loading = function(game){
+Ethan.Loading = function(game){
     uiLoadingText = null;
     uiEthan = null;
     uiFedora = null;
@@ -9,7 +9,7 @@ FappyBird.Loading = function(game){
 };
 
 var uiEthan, uiFedora, menumusic, bgmusic, pickupFx, smashFx, phrases;
-FappyBird.Loading.prototype = {
+Ethan.Loading.prototype = {
     preload: function(){
         uiLoadingText = this.add.text(this.world.centerX-280, 1543, "LOADING 0%", { font: "48px sans-serif", fill: "#ffffff", align: "center" });
         uiEthan = this.add.image(250, 850, "ethan");

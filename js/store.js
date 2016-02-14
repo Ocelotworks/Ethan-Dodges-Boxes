@@ -4,8 +4,8 @@
 /**
  * Created by Peter on 05/02/2016.
  */
-FappyBird.Store = function(game){};
-FappyBird.Store.prototype = {
+Ethan.Store = function(game){};
+Ethan.Store.prototype = {
 
     create: function(){
         if(this.game.ethanBucks === 69){

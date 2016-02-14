@@ -1,8 +1,8 @@
 /**
  * Created by Peter on 07/02/2016.
  */
-FappyBird.Credits = function(game){};
-FappyBird.Credits.prototype = {
+Ethan.Credits = function(game){};
+Ethan.Credits.prototype = {
 
     preload: function(){
         this.load.json("credits", "assets/credits.json");

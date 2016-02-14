@@ -9,7 +9,7 @@ var ownedPowerups, ethanPosition, boxSpeed, ticks, boxMaxFreq, boxMinFreq, boxPo
     ethanPositions = [150,450,720], background, goals, boxes, left, right, pointsbox, pointstext, ebtext, ebbox, debugText,
     soundEnabled = true, powerupTimer, powerupModifier = [], currentPowerup, tempBoxSpeed;
 
-FappyBird.Game = function(game){
+Ethan.Game = function(game){
     ownedPowerups = null;
     ethanPosition = null;
     boxSpeed = null;
@@ -34,7 +34,7 @@ FappyBird.Game = function(game){
 
 
 
-FappyBird.Game.prototype = {
+Ethan.Game.prototype = {
 
     addBox: function(){
         var position = this.game.rnd.integerInRange(0,2);
