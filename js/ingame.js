@@ -5,31 +5,29 @@
  * Created by Peter on 25/06/2015.
  */
 
-var ownedPowerups, ethanPosition, boxSpeed, ticks, boxMaxFreq, boxMinFreq, boxPositions = [970, 1215, 1480],
-    ethanPositions = [150,450,720], background, goals, boxes, left, right, pointsbox, pointstext, ebtext, ebbox, debugText,
-    soundEnabled = true, powerupTimer, powerupModifier = [], currentPowerup, tempBoxSpeed;
-
 Ethan.Game = function(game){
-    ownedPowerups = null;
-    ethanPosition = null;
-    boxSpeed = null;
-    ticks = null;
-    boxMaxFreq = null;
-    boxMinFreq = null;
-    background = null;
-    goals = null;
-    boxes = null;
-    left = null;
-    right = null;
-    pointsbox = null;
-    pointstext = null;
-    debugText = null;
-    powerupTimer = null;
-    powerupModifier = [];
-    currentPowerup = null;
-    tempBoxSpeed = null;
-    ebtext = null;
-    ebbox = null;
+    Ethan.Game.ownedPowerups = null;
+    Ethan.Game.ethanPosition = null;
+    Ethan.Game.ethanPositions = [150,450,720];
+    Ethan.Game.boxSpeed = null;
+    Ethan.Game.ticks = null;
+    Ethan.Game.boxMaxFreq = null;
+    Ethan.Game.boxMinFreq = null;
+    Ethan.Game.boxPositions = [970, 1215, 1480];
+    Ethan.Game.background = null;
+    Ethan.Game.goals = null;
+    Ethan.Game.boxes = null;
+    Ethan.Game.left = null;
+    Ethan.Game.right = null;
+    Ethan.Game.pointsBox = null;
+    Ethan.Game.pointsText = null;
+    Ethan.Game.debugText = null;
+    Ethan.Game.powerupTimer = null;
+    Ethan.Game.powerupModifiers = [];
+    Ethan.Game.currentPowerup = null;
+    Ethan.Game.tempBoxSpeed = null;
+    Ethan.Game.ethanBucksText = null;
+    Ethan.Game.ethanBucksIcon = null;
 };
 
 
@@ -38,47 +36,48 @@ Ethan.Game.prototype = {
 
     addBox: function(){
         var position = this.game.rnd.integerInRange(0,2);
-        var b = this.add.image(boxPositions[position], 770, ownedPowerups['oppositeday'] ? "player" : "box" );
-        if(ownedPowerups['oppositeday'] ){
+        var b = this.add.image(Ethan.Game.boxPositions[position], 770, Ethan.Game.ownedPowerups['oppositeday'] ? "player" : "box" );
+        if(Ethan.Game.ownedPowerups['oppositeday'] ){
             b.scale.setTo(0.3, 0.3);
         }
         b.powerup = null;
         b.b_position = position;
-        boxes.add(b);
+        Ethan.Game.boxes.add(b);
         position = null;
     },
 
     addEthanBuck: function(){
+        var powerup;
         var position = this.game.rnd.integerInRange(0,2);
         var b;
-        if(powerupModifier.length !== 0 && !currentPowerup && this.game.rnd.integerInRange(1, 7) === 1){
-            var powerup = powerupModifier[this.game.rnd.integerInRange(0, powerupModifier.length-1)];
-            b = this.add.image(boxPositions[position], 770, "powerups", powerup.id);
+        if(Ethan.Game.powerupModifiers.length !== 0 && !Ethan.Game.currentPowerup && this.game.rnd.integerInRange(1, 7) === 1){
+            powerup = Ethan.Game.powerupModifiers[this.game.rnd.integerInRange(0, Ethan.Game.powerupModifiers.length-1)];
+            b = this.add.image(Ethan.Game.boxPositions[position], 770, "powerups", powerup.id);
             b.powerup = powerup;
             powerup = null;
 
         }else{
-            b = this.add.image(boxPositions[position]-100, 770, "ebpickup");
+            b = this.add.image(Ethan.Game.boxPositions[position]-100, 770, "ebpickup");
             b.powerup = "ethanbuck";
         }
 
         b.b_position = position;
-        boxes.add(b);
+        Ethan.Game.boxes.add(b);
         position = null;
     },
 
     moveLeft: function(){
-        if(ethanPosition > 0){
-            ethanPosition--;
-            player.position.x = ethanPositions[ethanPosition];
+        if(Ethan.Game.ethanPosition > 0){
+            Ethan.Game.ethanPosition--;
+            player.position.x = Ethan.Game.ethanPositions[Ethan.Game.ethanPosition];
         }
 
     },
 
     moveRight: function(){
-        if(ethanPosition < 2){
-            ethanPosition++;
-            player.position.x = ethanPositions[ethanPosition];
+        if(Ethan.Game.ethanPosition < 2){
+            Ethan.Game.ethanPosition++;
+            player.position.x = Ethan.Game.ethanPositions[Ethan.Game.ethanPosition];
         }
 
     },
@@ -87,14 +86,14 @@ Ethan.Game.prototype = {
         //I don't know why I have to do this, but it won't let me call this.moveLeft() or this.moveRight()
         //console.log(data.x+","+this.game.width/2);
         if(data.x < this.game.width/2){
-            if(ethanPosition > 0){
-                ethanPosition--;
-                player.position.x = ethanPositions[ethanPosition];
+            if(Ethan.Game.ethanPosition > 0){
+                Ethan.Game.ethanPosition--;
+                player.position.x = Ethan.Game.ethanPositions[Ethan.Game.ethanPosition];
             }
         }else{
-            if(ethanPosition < 2){
-                ethanPosition++;
-                player.position.x = ethanPositions[ethanPosition];
+            if(Ethan.Game.ethanPosition < 2){
+                Ethan.Game.ethanPosition++;
+                player.position.x = Ethan.Game.ethanPositions[Ethan.Game.ethanPosition];
             }
         }
     },
@@ -102,138 +101,131 @@ Ethan.Game.prototype = {
     create: function() {
 
         this.game.points = 0;
-        ethanPosition = 1;
-        boxSpeed = 10;
-        ticks = 0;
-        boxMaxFreq = 50;
-        boxMinFreq = 20;
-        poweupTimer = 0;
+        Ethan.Game.ethanPosition = 1;
+        Ethan.Game.boxSpeed = 10;
+        Ethan.Game.ticks = 0;
+        Ethan.Game.boxMaxFreq = 50;
+        Ethan.Game.boxMinFreq = 20;
+        Ethan.Game.poweupTimer = 0;
         if (this.game.senpaiMode) {
-            background = this.game.add.group();
+            Ethan.Game.background = this.game.add.group();
             for (var i = 0; i < 20; i++) {
-                var arrow = this.game.add.image(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "background");
+                var arrow = this.game.add.image(this.game.rnd.integerInRange(0, 1080), this.game.rnd.integerInRange(0, 1920), "Ethan.Game.background");
                 var scale = this.game.rnd.integerInRange(1, 100) / 100;
                 arrow.scale.setTo(scale, scale);
                 arrow.speed = this.game.rnd.integerInRange(1, 10);
-                background.add(arrow);
+                Ethan.Game.background.add(arrow);
             }
         } else {
-            background = this.add.image(0, 0, "space");
-            background.anchor.setTo(0.5, 0.5);
-            background.angle = 90;
-            background.scale.setTo(2.5, 2);
+            Ethan.Game.background = this.add.image(0, 0, "space");
+            Ethan.Game.background.anchor.setTo(0.5, 0.5);
+            Ethan.Game.background.angle = 90;
+            Ethan.Game.background.scale.setTo(2.5, 2);
         }
-        ownedPowerups = JSON.parse(localStorage.getItem("powerups")) || {};
+        Ethan.Game.ownedPowerups = JSON.parse(localStorage.getItem("powerups")) || {};
         for(var powerup in powerups){
-            if(ownedPowerups[powerups[powerup].bool] === true && powerups[powerup].type === "powerup"){
-                powerupModifier.push(powerups[powerup]);
+            if(Ethan.Game.ownedPowerups[powerups[powerup].bool] === true && powerups[powerup].type === "powerup"){
+                Ethan.Game.powerupModifiers.push(powerups[powerup]);
             }
         }
-        soundEnabled = localStorage.getItem("sound") === "true";
-        goals = this.add.image(0,0,"goals");
+        Ethan.Game.soundEnabled = localStorage.getItem("sound") === "true";
+        Ethan.Game.goals = this.add.image(0,0,"goals");
 
-        boxes = this.add.group();
+        Ethan.Game.boxes = this.add.group();
 
-        left = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
-        right = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
+        Ethan.Game.left = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
+        Ethan.Game.right = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
         this.game.input.onDown.add(this.checkInput, this);
 
-        left.onDown.add(this.moveLeft, this);
-        right.onDown.add(this.moveRight, this);
+        Ethan.Game.left.onDown.add(this.moveLeft, this);
+        Ethan.Game.right.onDown.add(this.moveRight, this);
 
-        boxes.scale.set(0.4, 0.4);
+        Ethan.Game.boxes.scale.set(0.4, 0.4);
 
-        player = this.add.image(ethanPositions[ethanPosition], 1500, ownedPowerups['oppositeday'] ? "box" : "player");
-        if(ownedPowerups['oppositeday'])
-            player.scale.set(1,1);
-        else
-            player.scale.set(0.2,0.2);
-        player.gravity = 0;
+        player = this.add.image(Ethan.Game.ethanPositions[Ethan.Game.ethanPosition], 1500, Ethan.Game.ownedPowerups['oppositeday'] ? "box" : "player");
 
 
-        if(ownedPowerups['oppositeday']){
-            pointsbox = this.add.image(0, 0, "player");
-            pointsbox.scale.set(0.1, 0.1);
+        if(Ethan.Game.ownedPowerups['oppositeday']){
+            Ethan.Game.pointsBox = this.add.image(0, 0, "player");
         }else{
-            pointsbox = this.add.image(0, 0, "box");
-            pointsbox.scale.set(0.5, 0.5);
+            Ethan.Game.pointsBox = this.add.image(0, 0, "box");
+            Ethan.Game.pointsBox.scale.set(0.5, 0.5);
         }
 
-        pointstext = this.game.add.text(128, 10, "0", {
+        Ethan.Game.pointsText = this.game.add.text(128, 10, "0", {
             font: "165px Arial",
             fill: "#ff0044",
             align: "center"
         });
 
-        ebbox = this.add.image(0, 232, "ethanbucks");
-        ebbox.scale.set(0.5, 0.5);
+        Ethan.Game.ethanBucksIcon = this.add.image(0, 232, "ethanbucks");
+        Ethan.Game.ethanBucksIcon.scale.set(0.5, 0.5);
 
-        ebtext = this.game.add.text(128, 202, this.game.ethanBucks, {
+        Ethan.Game.ethanBucksText = this.game.add.text(128, 202, this.game.ethanBucks, {
             font: "165px Arial",
             fill: "#00ff44",
             align: "center"
         });
 
 
-
         if(this.game.debugMode){
-            debugText = this.game.add.text(0, 0, "boxSpeed: 0", {
-                font: "100px Arial",
+            Ethan.Game.debugText = this.game.add.text(0, 0, "boxSpeed: 0\nFPS: 0", {
+                font: "50px Arial",
                 fill: "#ffffff",
                 align: "center"
             });
         }
-        if(soundEnabled){
+        if(Ethan.Game.soundEnabled){
             bgmusic.play();
         }
     },
 
     update: function() {
-        ticks++;
+        Ethan.Game.ticks++;
 
-        if(ticks > this.game.rnd.integerInRange(boxMinFreq, boxMaxFreq)){
-            if((currentPowerup && currentPowerup.name === "money") || this.game.rnd.integerInRange(1, 8) === 1){
+        if(Ethan.Game.ticks > this.game.rnd.integerInRange(Ethan.Game.boxMinFreq, Ethan.Game.boxMaxFreq)){
+            if((Ethan.Game.currentPowerup && Ethan.Game.currentPowerup.name === "money") || this.game.rnd.integerInRange(1, 8) === 1){
                 this.addEthanBuck();
             }else{
                 this.addBox();
             }
-            ticks = 0;
+            Ethan.Game.ticks = 0;
         }
 
-        boxes.forEach(function (box){
+        Ethan.Game.boxes.forEach(function (box){
             if(box.alive) {
-                box.y += (boxSpeed * 2)+box.y/(100-boxSpeed);
-                box.x -= boxSpeed * (box.b_position == 1 ? 0.1 : box.b_position == 2 ? -0.3 : 0.4)*box.y/1000;
+                box.y += (Ethan.Game.boxSpeed * 2)+box.y/(100-Ethan.Game.boxSpeed);
+                box.x -= Ethan.Game.boxSpeed * (box.b_position == 1 ? 0.1 : box.b_position == 2 ? -0.3 : 0.4)*box.y/1000;
 
-                if(ownedPowerups['oppositeday'] && !box.powerup){
-                    box.scale.x += boxSpeed * 0.0001;
-                    box.scale.y += boxSpeed * 0.0001;
+                if(Ethan.Game.ownedPowerups['oppositeday'] && !box.powerup){
+                    box.scale.x += Ethan.Game.boxSpeed * 0.0001;
+                    box.scale.y += Ethan.Game.boxSpeed * 0.0001;
                 }else{
-                    box.scale.x += boxSpeed * 0.001;
-                    box.scale.y += boxSpeed * 0.001;
+                    box.scale.x += Ethan.Game.boxSpeed * 0.001;
+                    box.scale.y += Ethan.Game.boxSpeed * 0.001;
                 }
 
                 if (box.y > 3600) {
-                    if(box.b_position == ethanPosition){
+                    if(box.b_position == Ethan.Game.ethanPosition){
                         if(box.powerup){
                             if(typeof box.powerup.id != 'undefined') {
-                                currentPowerup = this.game.add.sprite(900, 0, "powerups", box.powerup.id);
-                                currentPowerup.name = box.powerup.bool;
+                                Ethan.Game.currentPowerup = this.game.add.sprite(900, 0, "powerups", box.powerup.id);
+                                Ethan.Game.currentPowerup.name = box.powerup.bool;
                                 switch(box.powerup.bool){
                                     case "slowdown":
-                                        powerupTimer = 700;
-                                        tempBoxSpeed = boxSpeed;
-                                        boxSpeed = 5;
+                                        Ethan.Game.powerupTimer = 700;
+                                        Ethan.Game.tempBoxSpeed = Ethan.Game.boxSpeed;
+                                        Ethan.Game.boxSpeed = 5;
                                         break;
                                     case "money":
-                                        powerupTimer = 500;
+                                        Ethan.Game.powerupTimer = 500;
                                         break;
                                     case "invincibility":
-                                        powerupTimer = 700;
+                                        Ethan.Game.powerupTimer = 700;
                                         break;
                                     case "nuke":
-                                        boxes.callAll("destroy");
-                                        boxes.removeAll();
+                                        Ethan.Game.boxes.callAll("destroy");
+                                        Ethan.Game.boxes.removeAll();
                                         break;
                                     default:
                                         console.warn("Unknown powerup %s ", box.powerup.bool);
@@ -241,13 +233,13 @@ Ethan.Game.prototype = {
                                 }
                             }else if(box.powerup === "ethanbuck"){
                                 this.game.ethanBucks++;
-                                ebtext.setText(this.game.ethanBucks);
-                                if(soundEnabled)
+                                Ethan.Game.ethanBucksText.setText(this.game.ethanBucks);
+                                if(Ethan.Game.soundEnabled)
                                     pickupFx.play();
                             }
                             box.kill();
                         }else{
-                            if(!currentPowerup || currentPowerup.name !== "invincibility"){
+                            if(!Ethan.Game.currentPowerup || Ethan.Game.currentPowerup.name !== "invincibility"){
                                 localStorage.setItem("ethanbucks", this.game.ethanBucks);
                                 this.game.state.start("GameOver");
                             }else{
@@ -256,17 +248,17 @@ Ethan.Game.prototype = {
                         }
 
                     }else{
-                        if(this.game.senpaiMode && soundEnabled && this.game.points % 20 == 0){
+                        if(this.game.senpaiMode && Ethan.Game.soundEnabled && this.game.points % 20 === 0){
                             this.randEthan();
                         }
                         this.game.points++;
-                        boxSpeed+=0.03;
-                        boxMinFreq-=0.03;
-                        boxMaxFreq-=0.02;
-                        pointstext.setText(this.game.points);
-                        boxes.remove(box);
+                        Ethan.Game.boxSpeed+=0.03;
+                        Ethan.Game.boxMinFreq-=0.03;
+                        Ethan.Game.boxMaxFreq-=0.02;
+                        Ethan.Game.pointsText.setText(this.game.points);
+                        Ethan.Game.boxes.remove(box);
                         box.destroy();
-                        if(soundEnabled)
+                        if(Ethan.Game.soundEnabled)
                             smashFx.play();
                     }
                 }
@@ -295,30 +287,40 @@ Ethan.Game.prototype = {
 
     render: function() {
         if(this.game.debugMode){
-           debugText.setText("boxSpeed: "+boxSpeed);
-            this.game.debug.soundInfo(bgmusic, 32, 32);
+           Ethan.Game.debugText.setText(
+               "boxSpeed: "+Ethan.Game.boxSpeed+
+               "\nboxMinFreq:"+Ethan.Game.boxMinFreq+
+               "\nboxMaxFreq:"+Ethan.Game.boxMaxFreq+
+               "\nticks:"+Ethan.Game.ticks+
+               "\ncurrentPowerup:"+(Ethan.Game.currentPowerup ? Ethan.Game.currentPowerup.name : "none")+
+               "\npowerupTimer:"+Ethan.Game.powerupTimer+
+               "\nPowerups available:"+Ethan.Game.powerupModifiers.length+
+               "\nFPS:"+this.game.time.fps
+           );
         }
         if(this.game.senpaiMode){
-            background.forEach(function(arrow){
+            Ethan.Game.background.forEach(function(arrow){
                 arrow.x -= arrow.speed;
                 if(arrow.x < -300){
                     arrow.x = 1080;
                 }
             });
         }
-        if(powerupTimer > 0){
-            powerupTimer--;
-            if(powerupTimer < 500 && powerupTimer % 100 === 0){
-                currentPowerup.visible = !currentPowerup.visible;
+        if(Ethan.Game.powerupTimer > 0){
+            Ethan.Game.powerupTimer--;
+            if(Ethan.Game.powerupTimer < 500 && Ethan.Game.powerupTimer % 100 === 0){
+                Ethan.Game.currentPowerup.visible = !Ethan.Game.currentPowerup.visible;
             }
-        }else if(currentPowerup){
-            switch(currentPowerup.name){
+        }else if(Ethan.Game.currentPowerup){
+            switch(Ethan.Game.currentPowerup.name){
                 case "slowdown":
-                    boxSpeed = tempBoxSpeed;
+                    Ethan.Game.boxSpeed = Ethan.Game.tempBoxSpeed;
+                    break;
+                default:
                     break;
             }
-            currentPowerup.destroy();
-            currentPowerup = null;
+            Ethan.Game.currentPowerup.destroy();
+            Ethan.Game.currentPowerup = null;
 
         }
     }
