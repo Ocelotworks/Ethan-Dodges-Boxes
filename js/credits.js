@@ -17,7 +17,9 @@ Ethan.Credits.prototype = {
                             fill: "#ffffff",
                             align: "center",
                             boundsAlignH: "center",
-                            boundsAlignV: "middle"
+                            boundsAlignV: "middle",
+                            wordWrap: true,
+                            wordWrapWidth: 1080
                         });
         creditText.setTextBounds(0, 0, 1080, 1920);
         var timeout = setInterval(function(){
