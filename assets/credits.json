@@ -2,11 +2,17 @@
   ["PROGRAMMING", "Peter Maguire"],
   ["RESEARCH & DEVELOPMENT", "Alex McGrath"],
   ["CONCEPT", "Peter Maguire", "Alex McGrath", "Ethan Castle"],
-  ["ART", "Peter Maguire", "Alex McGrath", "Rawdanitsu", "Aaron Burke (itmatters.mobi)", "Ironthunder", "Kenney (Kenney.nl)"],
+  ["HEAD OF GRAPHIC DESIGN", "Melissa Hanna"],
+  ["ART", "Peter Maguire", "Alex McGrath", "Melissa Hanna", "Rawdanitsu", "Aaron Burke (itmatters.mobi)", "Ironthunder", "Kenney (Kenney.nl)"],
   ["SOUND", "Avaren", "David McKee (ViRiX) soundcloud.com/virix", "JubyPhonic", "Blender Foundation", "wobbleboxx (wobbleboxx.com)"],
   ["IT SERVICES", "Jake Cairns"],
   ["ANDROID CONSULTANT", "Neil Trotter"],
   ["SPECIAL THANKS", "Gabe Newell", "Joel Margolis", "Darcy Marshall", "Neil Trotter", "Alex McGrath", "Jake Cairns"],
   ["THANKS FOR THE USE OF HIS FACE", "Ethan Castle"],
+  [
+    "All names, characters, and incidents portrayed in this production are fictitious. No identification with actual persons, places, buildings, and products is intended or should be inferred.","",
+    "No person or entity associated with this ga,e received payment or anything of value, or entered into any agreement or connection with the depiction of tobacco products.", "",
+    "No animals were harmed in the making of this game."
+  ],
   ["Thank you for playing!", "(Tap anywhere to return to settings)", "", "ocelotworks.com"]
 ]
