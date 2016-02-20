@@ -34,6 +34,10 @@
             window.game.login();
 
         }, false);
+        window.onerror = function(message, url, lineNumber){
+            alert("Error: "+message+" at "+url+":"+lineNumber);
+            return true;
+        };
         var tgame = new Phaser.Game(1080, 1920, Phaser.CANVAS, 'game');
         tgame.state.add('Boot', Ethan.Boot);
         tgame.state.add('Loading', Ethan.Loading);
