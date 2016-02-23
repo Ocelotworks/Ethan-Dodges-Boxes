@@ -80,7 +80,7 @@ Ethan.Store.prototype = {
             button.events.onInputOut.add(this.untintButton, this);
             button.purchase = i;
 
-            if(sellCount === 8 && window.game){
+            if(sellCount >= 7 && window.game){
                 window.game.unlockAchievement("CgkIrP6I1bcCEAIQCA");
             }
         }
