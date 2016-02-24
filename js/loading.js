@@ -39,8 +39,8 @@ Ethan.Loading.prototype = {
         var ownedPowerups = JSON.parse(localStorage.getItem("powerups")) || {};
         if(ownedPowerups['senpai']){
             this.game.senpaiMode = true;
-            this.load.audio("menumusic", "assets/senpai/Busy Day At The Market-LOOP.ogg");
-            this.load.audio("bgmusic", "assets/senpai/Houkago Stride[JubyPhonic].ogg");
+            //this.load.audio("menumusic", "assets/senpai/Busy Day At The Market-LOOP.ogg");
+            //this.load.audio("bgmusic", "assets/senpai/Houkago Stride[JubyPhonic].ogg");
             this.load.audio("ethan1", "assets/senpai/ethan1.ogg");
             this.load.audio("ethan2", "assets/senpai/ethan2.ogg");
             this.load.audio("ethan3", "assets/senpai/ethan3.ogg");
@@ -48,8 +48,8 @@ Ethan.Loading.prototype = {
             this.game.load.atlasXML('assets',  'assets/assets-senpai.png', 'assets/assets-senpai.xml');
         }else{
             this.game.senpaiMode = false;
-            this.load.audio("bgmusic", "assets/Precipice.ogg");
-            this.load.audio("menumusic", "assets/Call.ogg");
+            //this.load.audio("bgmusic", "assets/Precipice.ogg");
+            //this.load.audio("menumusic", "assets/Call.ogg");
             this.game.load.atlasXML('assets',  'assets/assets.png', 'assets/assets.xml');
 
         }
@@ -79,6 +79,7 @@ Ethan.Loading.prototype = {
     },
 
     create: function(){
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
         Ethan.Loading.uiLoadingText.setText("Loading music...");
         Ethan.Loading.uiFedora.y +=10;
         menumusic = this.add.audio('menumusic');
@@ -96,11 +97,11 @@ Ethan.Loading.prototype = {
         if (this.input.keyboard.addKey(Phaser.Keyboard.A).isDown) {
             this.start();
         } else {
-            if(this.game.senpaiMode) {
-                this.game.sound.setDecodedCallback(phrases.concat([bgmusic, menumusic, pickupFx, smashFx]), this.start, this);
-            } else{
-                this.game.sound.setDecodedCallback([bgmusic, menumusic, pickupFx, smashFx], this.start, this);
-            }
+            //if(this.game.senpaiMode) {
+            //    this.game.sound.setDecodedCallback(phrases.concat([bgmusic, menumusic, pickupFx, smashFx]), this.start, this);
+            //} else{
+                this.game.sound.setDecodedCallback([pickupFx, smashFx], this.start, this);
+            //}
 
         }
     },

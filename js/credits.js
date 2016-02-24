@@ -26,7 +26,7 @@ Ethan.Credits.prototype = {
             creditText.setText(credits[creditIndex].join("\n"));
             creditIndex++;
             if(creditIndex > credits.length){
-                timeout = null;
+                clearInterval(timeout);
             }
         }, 1500);
 

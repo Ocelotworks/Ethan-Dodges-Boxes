@@ -12,6 +12,9 @@ Ethan.Menu = function(game){
 Ethan.Menu.prototype = {
     create: function(){
 
+        //if(this.game.debugMode) {
+        //    this.game.plugins.add(Phaser.Plugin.Debug);
+        //}
         if(this.game.senpaiMode){
 
             Ethan.Menu.background = this.game.add.group();
@@ -32,8 +35,9 @@ Ethan.Menu.prototype = {
         }else{
 
             Ethan.Menu.background = this.game.add.image(0,0, "assets", "space");
-
-            Ethan.Menu.floatingHead = this.game.add.sprite(0, 0, "assets", powerups['oppositeday'] ? "box" : "player");
+            var fuckPhaserBitmap = this.game.make.bitmapData(250, 275);
+            fuckPhaserBitmap.draw(this.game.make.sprite(0,0, "assets", "player"));
+            Ethan.Menu.floatingHead = this.game.add.sprite(0, 0, fuckPhaserBitmap);
             Ethan.Menu.floatingHead.anchor.set(0.5, 0.5);
             Ethan.Menu.floatingHead.inputEnabled = true;
             Ethan.Menu.floatingHead.input.enableDrag(true);
@@ -43,19 +47,25 @@ Ethan.Menu.prototype = {
             }, this);
         }
 
+        Ethan.Menu.debugModeCounter = 0;
+        Ethan.Menu.logo = this.game.add.image(535, 490, "assets", "ethangame");
+        Ethan.Menu.logo.anchor.setTo(0.5, 0.5);
+        Ethan.Menu.logo.inputEnabled = true;
+        Ethan.Menu.logo.events.onInputDown.add(function(){
+           Ethan.Menu.debugModeCounter++;
+            if(Ethan.Menu.debugModeCounter >= 10){
+                this.game.debugMode = !this.game.debugMode;
+                this.game.state.start("Menu");
+            }
+        }, this);
 
         this.game.ethanBucks = parseInt(localStorage.getItem("ethanbucks")) || 0;
-        Ethan.Menu.ethanBucksIcon = this.game.add.sprite(5, 20, "assets", "ethanbucks");
+        Ethan.Menu.ethanBucksIcon = this.game.add.image(5, 20, "assets", "ethanbucks");
         Ethan.Menu.ethanBucksIcon.scale.set(0.7, 0.7);
         Ethan.Menu.ethanBucksText = this.game.add.text(200, 15, this.game.ethanBucks, {
             font: "100px Arial",
-            fill: "#ffffff",
-            align: "center"
+            fill: this.game.debugMode ? "#000000" : "#ffffff"
         });
-
-
-        Ethan.Menu.logo = this.game.add.image(535, 490, "assets", "ethangame");
-        Ethan.Menu.logo.anchor.setTo(0.5, 0.5);
 
         if(this.game.senpaiMode){
             var logoTween = this.game.add.tween(Ethan.Menu.logo);
@@ -63,15 +73,9 @@ Ethan.Menu.prototype = {
         }
 
         if(this.game.debugMode){
-            var debugText = this.game.add.text(240,1350, "Debug Menu", {
-                font: "100px Arial",
-                fill: "#ff0000"
-            });
-
-            debugText.inputEnabled = true;
-            debugText.events.onInputDown.add(function(){
-                this.game.state.start("Debug");
-            }, this);
+            this.game.add.button(240,1350, "assets",function(){
+                this.game.state.start("DebugMode");
+            }, this, "powerup-invincibility","powerup-invincibility", "powerup-invincibility");
         }
 
         Ethan.Menu.playButton = this.game.add.button(240, 850, "assets", this.startgame, this, "play", "play");
@@ -88,12 +92,14 @@ Ethan.Menu.prototype = {
         Ethan.Menu.muteButton = this.game.add.button(this.game.width - 150, 0, "assets", this.toggleMusic, this, snd, snd, snd);
         Ethan.Menu.muteButton.scale.setTo(4, 4);
 
-        if(localStorage.getItem("sound") === "true")
-            menumusic.play();
+
+
+        //if(localStorage.getItem("sound") === "true")
+        //    menumusic.play();
     },
 
     startgame: function(){
-        menumusic.stop();
+        //menumusic.stop();
         this.game.state.start("Game");
     },
 
@@ -107,11 +113,11 @@ Ethan.Menu.prototype = {
 
     toggleMusic: function(){
         if(localStorage.getItem("sound") === "true"){
-            menumusic.stop();
+           // menumusic.stop();
             localStorage.setItem("sound", false);
             Ethan.Menu.muteButton.setFrame("soundOffBlack");
         }else{
-            menumusic.play();
+           // menumusic.play();
             localStorage.setItem("sound", true);
             Ethan.Menu.muteButton.setFrame("soundOnBlack");
         }
@@ -128,7 +134,7 @@ Ethan.Menu.prototype = {
             });
         }else{
             Ethan.Menu.floatingHead.x++;
-            Ethan.Menu.floatingHead.angle-=0.5;
+            Ethan.Menu.floatingHead.angle+=0.5;
             Ethan.Menu.floatingHead.y++;
 
             if(Ethan.Menu.floatingHead.x > 1280){
@@ -137,11 +143,15 @@ Ethan.Menu.prototype = {
             }
         }
 
-    },
-
-    render: function(){
         if(this.game.debugMode){
-            this.game.debug.soundInfo(menumusic, 32, 32);
+            Ethan.Menu.ethanBucksText.setText(
+                "\nW: "+window.innerWidth+
+                "\nH: "+window.innerHeight+
+                "\nFPS:"+this.game.time.fps+
+                "\nFrame Time:"+this.game.time.elapsed+
+                "\nFrame Time Max:"+this.game.time.msMax+
+                "\nFrame Time Min:"+this.game.time.msMin);
         }
+
     }
 };

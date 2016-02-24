@@ -88,6 +88,12 @@ Ethan.Boot.prototype = {
         this.scale.maxWidth = 1080;
         this.scale.maxHeight = 1920;
         this.game.time.advancedTiming = true;
+
+        document.addEventListener("backbutton", function(){
+           // Ethan.Boot.game.state.start("Menu");
+            return true;
+        }, false);
+
         this.game.state.start("Loading");
     }
 };
